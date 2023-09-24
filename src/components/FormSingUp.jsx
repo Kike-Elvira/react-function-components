@@ -7,28 +7,52 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useEffect, useState } from "react";
 
 const FormSingUp = (props) => {
-  const { handleSubmit } = props
+  const { handleSubmit } = props;
   const [name, setName] = useState("");
   const [secondName, setSecondName] = useState("");
   const [email, setEmail] = useState("");
   const [camisetas, setCamisetas] = useState(false);
   const [novedades, setNovedades] = useState(false);
-  useEffect(()=>{
-      
-  },[name,secondName,email,camisetas,novedades]) // sincronizando mis arreglos para saber que hay en tiempo real
+  const [errors, setErrors] = useState({
+    name: {
+      error: false,
+      message: "",
+    },
+  });
+
+  const validarName = (name) => {
+    const regex = /^[A-Z][a-zA-Z]{2,}$/;
+    if (regex.test(name)) {
+      return {
+        name: {
+          errror: false,
+          message: "",
+        },
+      };
+    } else {
+      return {
+        name: {
+          error: true,
+          message:
+            "El nombre debe empezar en mayusculas y deben ser al menos 3 caracteres",
+        },
+      };
+    }
+  };
+  useEffect(() => {}, [name, secondName, email, camisetas, novedades]); // sincronizando mis arreglos para saber que hay en tiempo real
   return (
     <form
-    onSubmit={(e)=>{
-      e.preventDefault()
-      const sendData = {
-        name: name,
-        secondName: secondName,
-        email:email,
-        camisetas:camisetas,
-        novedades:novedades,
-      }
-      handleSubmit(sendData)
-    }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const sendData = {
+          name: name,
+          secondName: secondName,
+          email: email,
+          camisetas: camisetas,
+          novedades: novedades,
+        };
+        handleSubmit(sendData);
+      }}
     >
       <div style={{ display: "flex", alignItems: "flex-end" }}>
         <AccountCircle></AccountCircle>
@@ -41,6 +65,12 @@ const FormSingUp = (props) => {
           value={name}
           onChange={(e) => {
             setName(e.target.value); // asignando al use state el valor de del input
+          }}
+          error={errors.name.error}
+          helperText={errors.name.error ? errors.name.message : ""}
+          onBlur={(e) => {
+            setErrors(validarName(e.target.value));
+            
           }}
         />
       </div>
@@ -89,9 +119,9 @@ const FormSingUp = (props) => {
         />
       </FormGroup>
 
-      <Button variant="contained"
-      type="submmit"
-      >Registrarse</Button>
+      <Button variant="contained" type="submmit">
+        Registrarse
+      </Button>
     </form>
   );
 };
