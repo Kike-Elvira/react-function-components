@@ -6,7 +6,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useEffect, useState } from "react";
 
-const FormSingUp = () => {
+const FormSingUp = (props) => {
+  const { handleSubmit } = props
   const [name, setName] = useState("");
   const [secondName, setSecondName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +17,19 @@ const FormSingUp = () => {
       
   },[name,secondName,email,camisetas,novedades]) // sincronizando mis arreglos para saber que hay en tiempo real
   return (
-    <form>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      const sendData = {
+        name: name,
+        secondName: secondName,
+        email:email,
+        camisetas:camisetas,
+        novedades:novedades,
+      }
+      handleSubmit(sendData)
+    }}
+    >
       <div style={{ display: "flex", alignItems: "flex-end" }}>
         <AccountCircle></AccountCircle>
         <TextField
@@ -76,7 +89,9 @@ const FormSingUp = () => {
         />
       </FormGroup>
 
-      <Button variant="contained">Registrarse</Button>
+      <Button variant="contained"
+      type="submmit"
+      >Registrarse</Button>
     </form>
   );
 };

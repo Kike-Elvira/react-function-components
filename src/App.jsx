@@ -6,11 +6,15 @@ import { Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 function App() {
+
+  const handleSubmit = (valores) => {
+    console.log(valores);
+  }
  return(
    <Fragment>
     <Container component={"section"} maxWidth="sm" style={{backgroundColor:"#3AFFBF",borderRadius:"1rem", textAlign:"center", marginTop:"1rem",}}>
     <Typography variant="h3" style={{fontFamily:'Oswald'}}>Formulario</Typography>
-    <FormSingUp></FormSingUp>
+    <FormSingUp handleSubmit={handleSubmit}></FormSingUp>
     </Container>
    </Fragment>
 
